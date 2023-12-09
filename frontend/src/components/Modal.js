@@ -2,13 +2,15 @@ import React, { useRef, useState } from "react";
 import "./styles.css";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import axios from "axios";
 
 const centerAspectCrop = (mediaWidth, mediaHeight, aspect) => {
   return centerCrop(
     makeAspectCrop(
       {
-        unit: "%",
-        width: 90,
+        unit: "px",
+        width: 10,
+        height: 10,
       },
       aspect,
       mediaWidth,
@@ -35,7 +37,7 @@ const Modal = ({ open, onClose, image }) => {
     setCrop(centerAspectCrop(width, height, 16 / 9));
   };
 
-  async function onDownloadCropClick() {
+  const onDownloadCropClick = async () => {
     const image = imgRef.current;
     const crop = completedCrop;
     const canvas = previewCanvasRef.current;
@@ -69,21 +71,18 @@ const Modal = ({ open, onClose, image }) => {
     );
 
     const dataURL = canvas.toDataURL();
-    console.log(dataURL);
-    await fetch("https://127.0.0.1/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: dataURL,
-    })
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {});
 
-    onClose(false);
-  }
+    await axios
+      .post("http://127.0.0.1:5000/image", {
+        image: dataURL,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   if (!open) return null;
   return (
@@ -95,7 +94,7 @@ const Modal = ({ open, onClose, image }) => {
         className="modal-container"
       >
         <div className="modal-header">
-          <div>Cut with one question</div>
+          <div>Cắt ảnh với câu hỏi của bạn</div>
           <div onClick={handleClose}>X</div>
         </div>
         {image && (
