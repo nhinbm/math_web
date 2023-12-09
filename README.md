@@ -6,8 +6,6 @@
 
 3. Run: `npm start`
 
-4. Folder backend: `npm i .` to install the packages.
+4. Folder backend: Run: `python3 -m flask run`
 
-5. Run: `python3 -m flask run`
-
-6. Try yourself
+5. Try yourself
