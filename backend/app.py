@@ -1,13 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, make_response, jsonify, json
 from flask_cors import CORS
+from process import process_ocr
 
-api = Flask(__name__)
-CORS(api)
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
-@api.route('/image', methods=['POST'])
-def image():
-  print(request.get_json())
-  return {"message": "temp"}
+@app.route('/process', methods=['POST'])
+def process():
+    raw_data = request.get_data(as_text=True)
+    req = json.loads(raw_data)
 
-if __name__ == "__main__":
-  api.run(debug=True)
+    recognized_content = process_ocr(req)
+    print(recognized_content)
+    
+    return {"message": recognized_content}
+
+if __name__ == '__main__':
+    app.run(debug=True)

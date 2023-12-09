@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import "./styles.css";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import axios from "axios";
 
 const centerAspectCrop = (mediaWidth, mediaHeight, aspect) => {
   return centerCrop(
@@ -21,7 +20,7 @@ const centerAspectCrop = (mediaWidth, mediaHeight, aspect) => {
   );
 };
 
-const Modal = ({ open, onClose, image }) => {
+const Modal = ({ open, onClose, image, onProcessData}) => {
   const imgRef = useRef(null);
   const previewCanvasRef = useRef(null);
   const [crop, setCrop] = useState(null);
@@ -70,19 +69,25 @@ const Modal = ({ open, onClose, image }) => {
       crop.height * scaleY
     );
 
-    const dataURL = canvas.toDataURL();
+    const dataURL = canvas.toDataURL().split(',')[1];
+    console.log(dataURL);
 
-    await axios
-      .post("http://127.0.0.1:5000/image", {
-        image: dataURL,
+    await fetch("http://127.0.0.1:5000/process", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataURL),
+    })
+      .then((data) => {
+        return data.json();
       })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
+      .then((data) => {
+        console.log(data.message);
+        onProcessData(data.message);
       });
-  };
+    onClose(false);
+  }
 
   if (!open) return null;
   return (

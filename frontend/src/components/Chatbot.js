@@ -13,7 +13,7 @@ import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import ModalAudio from "./ModalAudio";
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 const systemMessage = {
   role: "system",
@@ -140,7 +140,7 @@ const Chatbot = () => {
         />
         <Dropdown show={isShow} setImage={inputFile} setAudio={setIsAudio} />
       </div>
-      <Modal open={openModal} onClose={setOpenModal} image={image} />
+      <Modal open={openModal} onClose={setOpenModal} image={image} onProcessData={handleSend}/>
       <ModalAudio open={isAudio} onClose={setIsAudio} />
     </div>
   );
