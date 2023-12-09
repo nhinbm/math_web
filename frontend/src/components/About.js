@@ -18,7 +18,7 @@ const About = () => {
       <div>Đinh Công Huy Hoàng - 21127507</div>
       <div>Nguyễn Trần Minh Khôi - 21127518</div>
       <div>Nguyễn Bùi Mẫn Nhi - 21127662</div>
-      <div>Nguyễn Bùi Mẫn Nhi - 21127666</div>
+      <div>Trần Thuận Phát - 21127666</div>
     </div>
   );
 };
