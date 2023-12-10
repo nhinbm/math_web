@@ -10,3 +10,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+img{
+  height: 75vh;
+  width: 90vh;
+  object-fit: contain;
+}
