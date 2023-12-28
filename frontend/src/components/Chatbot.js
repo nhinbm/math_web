@@ -12,8 +12,11 @@ import "./styles.css";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import ModalAudio from "./ModalAudio";
+import dotenv from "dotenv"
 
-const API_KEY = "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";
+dotenv.config()
+const API_KEY = process.env.OPENAI_API_KEY;
+// const API_KEY = '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'
 
 const systemMessage = {
   role: "system",
@@ -140,7 +143,7 @@ const Chatbot = () => {
         />
         <Dropdown show={isShow} setImage={inputFile} setAudio={setIsAudio} />
       </div>
-      <Modal open={openModal} onClose={setOpenModal} image={image} onProcessData={handleSend}/>
+      <Modal open={openModal} onClose={setOpenModal} image={image} onProcessData={handleSend} />
       <ModalAudio open={isAudio} onClose={setIsAudio} />
     </div>
   );
