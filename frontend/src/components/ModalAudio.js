@@ -3,7 +3,7 @@ import axios from "axios";
 
 const mimeType = "audio/mpeg";
 
-const ModalAudio = ({ open, onClose }) => {
+const ModalAudio = ({ open, onClose, onProcessData }) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
 
@@ -18,16 +18,24 @@ const ModalAudio = ({ open, onClose }) => {
   };
 
   const onDownloadCropClick = async () => {
+    const aTag = document.createElement("a");
+    aTag.href = audio;
+    aTag.setAttribute("download", "sample");
+    document.body.appendChild(aTag);
+    aTag.click();
+    aTag.remove();
+
     await axios
       .post("http://127.0.0.1:5000/audio", {
         audio: audio,
       })
       .then(function (response) {
-        console.log(response);
+        onProcessData(response.data.message);
       })
       .catch(function (error) {
-        console.log(error);
+        onProcessData(error);
       });
+    handleClose();
   };
 
   const getMicrophonePermission = async () => {

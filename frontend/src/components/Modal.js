@@ -20,7 +20,7 @@ const centerAspectCrop = (mediaWidth, mediaHeight, aspect) => {
   );
 };
 
-const Modal = ({ open, onClose, image, onProcessData}) => {
+const Modal = ({ open, onClose, image, onProcessData }) => {
   const imgRef = useRef(null);
   const previewCanvasRef = useRef(null);
   const [crop, setCrop] = useState(null);
@@ -49,14 +49,6 @@ const Modal = ({ open, onClose, image, onProcessData}) => {
 
     const ctx = canvas.getContext("2d");
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    console.log(
-      image.width,
-      image.height,
-      crop.x,
-      crop.y,
-      crop.width,
-      crop.height
-    );
     ctx.drawImage(
       image,
       crop.x * scaleX,
@@ -69,13 +61,14 @@ const Modal = ({ open, onClose, image, onProcessData}) => {
       crop.height * scaleY
     );
 
-    const dataURL = canvas.toDataURL().split(',')[1];
-    console.log(dataURL);
+    console.log(canvas.toDataURL());
+
+    const dataURL = canvas.toDataURL().split(",")[1];
 
     await fetch("http://127.0.0.1:5000/process", {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(dataURL),
     })
@@ -87,7 +80,7 @@ const Modal = ({ open, onClose, image, onProcessData}) => {
         onProcessData(data.message);
       });
     onClose(false);
-  }
+  };
 
   if (!open) return null;
   return (
