@@ -12,7 +12,6 @@ import "./styles.css";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import ModalAudio from "./ModalAudio";
-import env from "react-dotenv";
 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 console.log(API_KEY)
