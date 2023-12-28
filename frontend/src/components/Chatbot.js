@@ -14,7 +14,7 @@ import Dropdown from "./Dropdown";
 import ModalAudio from "./ModalAudio";
 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
-console.log(API_KEY)
+console.log(API_KEY);
 
 const systemMessage = {
   role: "system",
@@ -66,7 +66,6 @@ const Chatbot = () => {
   };
 
   const processMessageToChatGPT = async (chatMessages) => {
-    console.log(chatMessages);
     let apiMessages = chatMessages.map((messageObject) => {
       let role = "";
       if (messageObject.sender === "ChatGPT") {
@@ -141,7 +140,12 @@ const Chatbot = () => {
         />
         <Dropdown show={isShow} setImage={inputFile} setAudio={setIsAudio} />
       </div>
-      <Modal open={openModal} onClose={setOpenModal} image={image} onProcessData={handleSend} />
+      <Modal
+        open={openModal}
+        onClose={setOpenModal}
+        image={image}
+        onProcessData={handleSend}
+      />
       <ModalAudio open={isAudio} onClose={setIsAudio} />
     </div>
   );

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const mimeType = "audio/mpeg";
 
-const ModalAudio = ({ open, onClose }) => {
+const ModalAudio = ({ open, onClose, onProcessData }) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
 
@@ -11,7 +11,7 @@ const ModalAudio = ({ open, onClose }) => {
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
-  const [form, setForm] = useState([])
+  const [form, setForm] = useState([]);
 
   const handleClose = () => {
     setAudio(null);
@@ -33,12 +33,11 @@ const ModalAudio = ({ open, onClose }) => {
 
   const onDownloadCropClick = async () => {
     try {
-      const response = await axios
-        .post("http://127.0.0.1:5000/audio", form, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+      const response = await axios.post("http://127.0.0.1:5000/audio", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -88,15 +87,15 @@ const ModalAudio = ({ open, onClose }) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
-      console.log(audioBlob)
-      const formData = new FormData()
-      formData.append('audio', audioBlob, 'audio.mp3');
+      console.log(audioBlob);
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "audio.mp3");
       // formData.append('audio', audioBlob)
-      console.log(formData)
+      console.log(formData);
 
       // onDownloadCropClick(formData)
       setAudio(audioUrl);
-      setForm(formData)
+      setForm(formData);
       setAudioChunks([]);
     };
   };
