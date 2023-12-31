@@ -39,6 +39,7 @@ const ModalAudio = ({ open, onClose, onProcessData }) => {
         },
       });
       console.log(response.data);
+      onProcessData(response.data);
     } catch (error) {
       console.error(error);
     }

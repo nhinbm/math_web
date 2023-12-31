@@ -14,7 +14,7 @@ import Dropdown from "./Dropdown";
 import ModalAudio from "./ModalAudio";
 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
-console.log(API_KEY);
+// const API_KEY = "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";
 
 const systemMessage = {
   role: "system",
