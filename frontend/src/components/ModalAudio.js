@@ -38,11 +38,11 @@ const ModalAudio = ({ open, onClose, onProcessData }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
-      onProcessData(response.data);
+      onProcessData(response.message);
     } catch (error) {
-      console.error(error);
+      onProcessData("Error! Help me the code with audio to text in python!");
     }
+    handleClose();
   };
 
   const getMicrophonePermission = async () => {
@@ -88,11 +88,9 @@ const ModalAudio = ({ open, onClose, onProcessData }) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
-      console.log(audioBlob);
       const formData = new FormData();
       formData.append("audio", audioBlob, "audio.mp3");
       // formData.append('audio', audioBlob)
-      console.log(formData);
 
       // onDownloadCropClick(formData)
       setAudio(audioUrl);

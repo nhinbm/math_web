@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response, jsonify, json, send_file
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from process import process_ocr
 from audio import download_audio, transform_audio
 
@@ -8,6 +8,7 @@ CORS(app)  # Enable CORS for all routes
 
 
 @app.route("/process", methods=["POST"])
+# @cross_origin() # allow all origins all methods.
 def process():
     raw_data = request.get_data(as_text=True)
     req = json.loads(raw_data)
@@ -17,6 +18,7 @@ def process():
 
 
 @app.route("/audio", methods=["POST"])
+# @cross_origin() # allow all origins all methods.
 def process_sound():
     if "audio" not in request.files:
         return {"error": "No audio file provided"}, 400

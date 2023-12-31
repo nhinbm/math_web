@@ -7,7 +7,7 @@ def transform_audio():
     return result
 
 
-def download_audio(audio_raw):
+async def download_audio(audio_raw):
     audio_file_path = "data/audio.wav"
     with open(audio_file_path, "wb") as file:
-        file.write(audio_raw)
+        await file.write(audio_raw)

@@ -61,24 +61,26 @@ const Modal = ({ open, onClose, image, onProcessData }) => {
       crop.height * scaleY
     );
 
-    console.log(canvas.toDataURL());
-
     const dataURL = canvas.toDataURL().split(",")[1];
 
-    await fetch("http://127.0.0.1:5000/process", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataURL),
-    })
-      .then((data) => {
-        return data.json();
+    try {
+      await fetch("http://127.0.0.1:5000/process", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataURL),
       })
-      .then((data) => {
-        console.log(data.message);
-        onProcessData(data.message);
-      });
+        .then((data) => {
+          return data.json();
+        })
+        .then((data) => {
+          onProcessData(data.message);
+        });
+    } catch (error) {
+      onProcessData("Error! Help me the code with image to text in python!");
+    }
+
     onClose(false);
   };
 
