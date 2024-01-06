@@ -38,7 +38,8 @@ const ModalAudio = ({ open, onClose, onProcessData }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      onProcessData(response.message);
+      console.log(response.data.message);
+      onProcessData(response.data.message);
     } catch (error) {
       onProcessData("Error! Help me the code with audio to text in python!");
     }

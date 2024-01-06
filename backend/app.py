@@ -1,7 +1,7 @@
 from flask import Flask, request, make_response, jsonify, json, send_file
 from flask_cors import CORS, cross_origin
 from process import process_ocr
-from audio import download_audio, transform_audio
+from audio import download_audio, transform_audio, noise_reduction
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -26,8 +26,10 @@ def process_sound():
     audio_raw = raw_data.read()
     # Save the audio file
     download_audio(audio_raw)
+    noise_reduction()
+    # Process data
     recognized_content = transform_audio()
-    print(recognized_content)
+    print(recognized_content["text"])
     return {"message": recognized_content["text"]}
 
 

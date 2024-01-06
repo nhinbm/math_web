@@ -42,6 +42,7 @@ const Chatbot = () => {
       direction: "outgoing",
       sender: "user",
     };
+    console.log(newMessage)
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
     setIsTyping(true);
