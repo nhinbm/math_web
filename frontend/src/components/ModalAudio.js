@@ -3,7 +3,7 @@ import axios from "axios";
 
 const mimeType = "audio/mpeg";
 
-const ModalAudio = ({ open, onClose }) => {
+const ModalAudio = ({ open, onClose, onProcessData }) => {
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
 
@@ -11,23 +11,39 @@ const ModalAudio = ({ open, onClose }) => {
   const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
   const [audio, setAudio] = useState(null);
+  const [form, setForm] = useState([]);
 
   const handleClose = () => {
     setAudio(null);
     onClose(false);
   };
 
+  // const onDownloadCropClick = async (data) => {
+  //   await axios
+  //     .post("http://127.0.0.1:5000/audio", {
+  //       audio: data,
+  //     })
+  //     .then(function (response) {
+  //       console.log(response);
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     });
+  // };
+
   const onDownloadCropClick = async () => {
-    await axios
-      .post("http://127.0.0.1:5000/audio", {
-        audio: audio,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/audio", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
+      console.log(response.data.message);
+      onProcessData(response.data.message);
+    } catch (error) {
+      onProcessData("Error! Help me the code with audio to text in python!");
+    }
+    handleClose();
   };
 
   const getMicrophonePermission = async () => {
@@ -73,7 +89,13 @@ const ModalAudio = ({ open, onClose }) => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "audio.mp3");
+      // formData.append('audio', audioBlob)
+
+      // onDownloadCropClick(formData)
       setAudio(audioUrl);
+      setForm(formData);
       setAudioChunks([]);
     };
   };
